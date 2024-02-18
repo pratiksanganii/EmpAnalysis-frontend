@@ -1,16 +1,38 @@
 // reducers/userSlice.js
-import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import http from '../http-common';
+
+export const login = createAsyncThunk('login', async (user, thunkAPI) => {
+  const data = await commonAuth('login', user);
+  return thunkAPI.fulfillWithValue(data);
+});
+
+export const signup = createAsyncThunk('signup', async (user, thunkAPI) => {
+  const data = await commonAuth('signup', user);
+  return thunkAPI.fulfillWithValue(data);
+});
+
+async function commonAuth(type, user) {
+  const remember = user?.remember;
+  delete user?.remember;
+  const res = await http.post(`/${type}`, user);
+  const data = res.data.data;
+  if (remember) localStorage.setItem('user', JSON.stringify(data));
+  return data;
+}
+
+const initialState = {
+  user: JSON.parse(localStorage.getItem('user') ?? '{}'),
+  loading: false,
+  error: null,
+};
 
 const userSlice = createSlice({
   name: 'user',
-  initialState: {
-    user: null,
-    loading: false,
-    error: null,
-  },
+  initialState,
   reducers: {
     // Define your actions here
-    setData: (state, action) => {
+    setUser: (state, action) => {
       state.user = action.payload;
     },
     setLoading: (state, action) => {
@@ -19,6 +41,15 @@ const userSlice = createSlice({
     setError: (state, action) => {
       state.error = action.payload;
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(login.fulfilled, (state, action) => {
+        state.user = action.payload;
+      })
+      .addCase(signup.fulfilled, (state, action) => {
+        state.user = action.payload;
+      });
   },
 });
 

@@ -9,13 +9,18 @@ import {
 } from '@mui/material';
 import React, { useState } from 'react';
 import Footer from './Common';
+import { useDispatch } from 'react-redux';
+import { login } from '../store/userSlice';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [remember, setRemember] = useState(true);
+  const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    dispatch(login({ email, password, remember }));
   };
 
   return (
@@ -61,7 +66,15 @@ const Login = () => {
           />
           <Grid>
             <FormControlLabel
-              control={<Checkbox value='remember' color='primary' />}
+              control={
+                <Checkbox
+                  value={remember}
+                  onChange={(e) => {
+                    setRemember(e.target.value);
+                  }}
+                  color='primary'
+                />
+              }
               label='Remember me'
             />
           </Grid>
