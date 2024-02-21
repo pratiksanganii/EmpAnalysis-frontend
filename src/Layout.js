@@ -9,6 +9,7 @@ export const Layout = () => {
   useEffect(() => {
     // if having access token navigate to dashboard
     if (user.user?.accessToken) navigate('/dashboard');
+    else navigate('/login');
   }, [user, navigate]);
   return <Outlet />;
 };
