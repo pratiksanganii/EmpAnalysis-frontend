@@ -23,7 +23,7 @@
   "scripts": {
     "start": "react-scripts start",
     "start:prod": "serve -s build",
-    "build": "npm install -f && npm install -g serve && react-scripts build",
+    "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
