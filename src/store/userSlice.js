@@ -12,12 +12,27 @@ export const signup = createAsyncThunk('signup', async (user, thunkAPI) => {
   return thunkAPI.fulfillWithValue(data);
 });
 
+export const feedDataFromExcel = createAsyncThunk(
+  'upload',
+  async (file, thunkAPI) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    const res = await http.post('/upload', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
+    return thunkAPI.fulfillWithValue(res.data.data);
+  }
+);
+
 async function commonAuth(type, user) {
   const remember = user?.remember;
   delete user?.remember;
   const res = await http.post(`/${type}`, user);
   const data = res.data.data;
-  if (remember) localStorage.setItem('user', JSON.stringify(data));
+  if (remember) {
+    localStorage.setItem('user', JSON.stringify(data));
+    localStorage.setItem('accessToken', data.accessToken);
+  }
   return data;
 }
 

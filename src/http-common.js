@@ -5,4 +5,9 @@ const http = axios.create({
     'Content-type': 'application/json',
   },
 });
+axios.interceptors.request.use(() => {});
+http.interceptors.request.use((req) => {
+  req.headers.access_token = localStorage.getItem('accessToken');
+  return req;
+});
 export default http;
