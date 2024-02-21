@@ -20,7 +20,7 @@ const Dashboard = () => {
     // if not having access token navigate to login
     if (!user?.accessToken) navigate('/login');
     dispatch(empList());
-  }, [user, navigate]);
+  }, [user, navigate, dispatch]);
 
   return (
     <div>

@@ -15,7 +15,6 @@ import {
   DialogTitle,
   Grid,
 } from '@mui/material';
-import { useEffect } from 'react';
 import { useState } from 'react';
 import { deleteEmp } from '../store/employeeSlice';
 

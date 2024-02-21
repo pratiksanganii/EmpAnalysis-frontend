@@ -26,7 +26,7 @@ const Comp = ({ type, data }) => {
   return (
     <div style={{ border: '1px solid black' }}>
       <Typography>{data.field}</Typography>
-      {type == 'bar' ? (
+      {type === 'bar' ? (
         <BarChart
           series={[{ data: data.values }]}
           height={300}
