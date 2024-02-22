@@ -15,12 +15,11 @@ import { login } from '../store/userSlice';
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [remember, setRemember] = useState(true);
   const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(login({ email, password, remember }));
+    dispatch(login({ email, password }));
   };
 
   return (
@@ -64,20 +63,6 @@ const Login = () => {
             value={password}
             autoComplete='current-password'
           />
-          <Grid>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  value={remember}
-                  onChange={(e) => {
-                    setRemember(e.target.value);
-                  }}
-                  color='primary'
-                />
-              }
-              label='Remember me'
-            />
-          </Grid>
           <Footer type='login' />
         </Box>
       </Box>

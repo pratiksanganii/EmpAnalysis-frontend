@@ -7,6 +7,7 @@ const http = axios.create({
 });
 axios.interceptors.request.use(() => {});
 http.interceptors.request.use((req) => {
+  if (req.files) req.body = req.files;
   req.headers.access_token = localStorage.getItem('accessToken');
   return req;
 });

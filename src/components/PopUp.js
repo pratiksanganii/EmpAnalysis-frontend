@@ -3,12 +3,15 @@ import {
   Button,
   Container,
   Modal,
+  Select,
   TextField,
   Typography,
+  MenuItem,
 } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { create, update } from '../store/employeeSlice';
+import http from '../http-common';
 
 const PopUp = ({ data, visible, setVisible }) => {
   const [employeeID, setEmployeeID] = useState(data?.employeeID);
@@ -19,13 +22,23 @@ const PopUp = ({ data, visible, setVisible }) => {
   const [skills, setSkills] = useState(data?.skills);
   const [salary, setSalary] = useState(data?.salaryDetails);
   const [address, setAddress] = useState(data?.address);
+  const [designation, setDesignation] = useState(data?.designation);
+  const [statusList, setStatusList] = useState([]);
+  const [desigList, setDesigList] = useState([]);
   const dispatch = useDispatch();
+
+  const setEmpData = async () => {
+    const emp = await http.get('/misc/empData');
+    setStatusList(emp.data.status);
+    setDesigList(emp.data.designation);
+  };
 
   const handleSubmit = () => {
     const payload = {
       employeeID,
       employeeName,
       employeeStatus,
+      designation,
       joiningDate,
       birthDate,
       skills,
@@ -36,6 +49,10 @@ const PopUp = ({ data, visible, setVisible }) => {
     else dispatch(create(payload));
     setVisible(false);
   };
+
+  useEffect(() => {
+    setEmpData();
+  }, []);
 
   return (
     <Modal
@@ -91,16 +108,32 @@ const PopUp = ({ data, visible, setVisible }) => {
             value={employeeName}
             onChange={(e) => setEmployeeName(e.target.value)}
           />
-          <TextField
+          <Select
             margin='normal'
-            required
             fullWidth
-            id='empStatus'
-            name='empStatus'
-            label='Employee Status'
+            required
             value={employeeStatus}
+            label='Status'
+            name='Status'
             onChange={(e) => setEmployeeStatus(e.target.value)}
-          />
+          >
+            {statusList.map((s) => (
+              <MenuItem value={s}>{s}</MenuItem>
+            ))}
+          </Select>
+          <Select
+            margin='normal'
+            fullWidth
+            required
+            value={designation}
+            label='Designation'
+            name='Designation'
+            onChange={(e) => setDesignation(e.target.value)}
+          >
+            {desigList.map((s) => (
+              <MenuItem value={s}>{s}</MenuItem>
+            ))}
+          </Select>
           <TextField
             margin='normal'
             required

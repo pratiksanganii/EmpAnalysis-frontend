@@ -15,9 +15,9 @@ export const signup = createAsyncThunk('signup', async (user, thunkAPI) => {
 export const feedDataFromExcel = createAsyncThunk(
   'upload',
   async (file, thunkAPI) => {
-    const formData = new FormData();
-    formData.append('file', file);
-    const res = await http.post('/upload', formData, {
+    const fileData = new FormData();
+    fileData.append('file', file);
+    const res = await http.post('/upload', fileData, {
       headers: { 'Content-Type': 'multipart/form-data' },
     });
     return thunkAPI.fulfillWithValue(res.data.data);
@@ -25,19 +25,16 @@ export const feedDataFromExcel = createAsyncThunk(
 );
 
 async function commonAuth(type, user) {
-  const remember = user?.remember;
   delete user?.remember;
   const res = await http.post(`/${type}`, user);
   const data = res.data.data;
-  if (remember) {
-    localStorage.setItem('user', JSON.stringify(data));
-    localStorage.setItem('accessToken', data.accessToken);
-  }
+  localStorage.setItem('accessToken', data.accessToken);
   return data;
 }
 
 const initialState = {
-  user: JSON.parse(localStorage.getItem('user') ?? '{}'),
+  user: {},
+  accessToken: localStorage.getItem('accessToken'),
   loading: false,
   error: null,
 };
@@ -60,10 +57,16 @@ const userSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(login.fulfilled, (state, action) => {
+        const accessToken = action.payload.accessToken;
+        localStorage.setItem('accessToken', accessToken);
         state.user = action.payload;
+        state.accessToken = accessToken;
       })
       .addCase(signup.fulfilled, (state, action) => {
+        const accessToken = action.payload.accessToken;
+        localStorage.setItem('accessToken', accessToken);
         state.user = action.payload;
+        state.accessToken = accessToken;
       });
   },
 });

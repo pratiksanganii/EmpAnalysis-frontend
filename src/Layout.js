@@ -9,9 +9,9 @@ export const Layout = () => {
 
   useEffect(() => {
     // if having access token navigate to dashboard
-    if (!['/login', '/signup'].includes(location.pathname))
-      if (user.user?.accessToken) navigate('/dashboard');
-      else navigate('/login');
+    if (user?.accessToken) navigate('/dashboard');
+    else if (!['/login', '/signup'].includes(location.pathname))
+      navigate('/login');
   }, [user, navigate, location.pathname]);
   return <Outlet />;
 };

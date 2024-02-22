@@ -1,28 +1,7 @@
 import { Typography } from '@mui/material';
 import { BarChart } from '@mui/x-charts';
-import React from 'react';
 
-const ChartTable = () => {
-  return (
-    <div
-      style={{
-        margin: '10px',
-      }}
-    >
-      ChartTable
-      <Comp
-        type={'bar'}
-        data={{
-          field: 'Skills',
-          types: ['ReactJS', 'NodeJS'],
-          values: [12, 30],
-        }}
-      />
-    </div>
-  );
-};
-
-const Comp = ({ type, data }) => {
+export const ChartCard = ({ type, data }) => {
   return (
     <div style={{ border: '1px solid black' }}>
       <Typography>{data.field}</Typography>
@@ -39,4 +18,3 @@ const Comp = ({ type, data }) => {
     </div>
   );
 };
-export default ChartTable;

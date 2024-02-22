@@ -10,6 +10,7 @@ const RouterConfig = () => {
   return (
     <Router>
       <Routes>
+        <Route path='*' element={<>Not found.</>} />
         <Route path='/' element={<Layout />}>
           <Route path='/login' element={<Login />} />
           <Route path='/signup' element={<SignUp />} />

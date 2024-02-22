@@ -14,6 +14,7 @@ import {
   DialogContentText,
   DialogTitle,
   Grid,
+  Typography,
 } from '@mui/material';
 import { useState } from 'react';
 import { deleteEmp } from '../store/employeeSlice';
@@ -26,22 +27,50 @@ export default function EmpTable({ setData, setVisible }) {
 
   return (
     <>
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650, width: '80vw' }} aria-label='simple table'>
+      <TableContainer
+        style={{ marginTop: 15, height: '60vh' }}
+        component={Paper}
+      >
+        <div
+          style={{
+            width: '90vw',
+            display: 'flex',
+            justifyContent: 'space-between',
+          }}
+        >
+          <Typography marginLeft={2} component={'h1'}>
+            Employee details
+          </Typography>
+          <Button
+            onClick={() => setVisible(true)}
+            variant='contained'
+            component='label'
+          >
+            Create
+          </Button>
+        </div>
+        <Table
+          sx={{
+            minWidth: 650,
+            width: '80vw',
+          }}
+          aria-label='simple table'
+        >
           <TableHead>
             <TableRow>
               <TableCell>Employee ID</TableCell>
               <TableCell>Employee Name</TableCell>
               <TableCell>Employee Status</TableCell>
+              <TableCell>Designation</TableCell>
               <TableCell>Joining Date</TableCell>
               <TableCell>Birth Date</TableCell>
               <TableCell>Skills</TableCell>
-              <TableCell>Salary Details</TableCell>
+              <TableCell>Salary</TableCell>
               <TableCell>Address</TableCell>
               <TableCell width={200}>Action</TableCell>
             </TableRow>
           </TableHead>
-          <TableBody>
+          <TableBody style={{ height: '50vh', overflow: 'scroll' }}>
             {rows.map((row) => (
               <TableRow
                 key={row.id}
@@ -52,10 +81,11 @@ export default function EmpTable({ setData, setVisible }) {
                 </TableCell>
                 <TableCell align='center'>{row.employeeName}</TableCell>
                 <TableCell align='center'>{row.employeeStatus}</TableCell>
+                <TableCell align='center'>{row.designation}</TableCell>
                 <TableCell align='center'>{row.joiningDate}</TableCell>
                 <TableCell align='center'>{row.birthDate}</TableCell>
                 <TableCell align='center'>{row.skills}</TableCell>
-                <TableCell align='center'>{row.salaryDetails}</TableCell>
+                <TableCell align='center'>{row.salary}</TableCell>
                 <TableCell align='center'>{row.address}</TableCell>
                 <TableCell align='center'>
                   <Grid container justifyContent='space-evenly'>
@@ -65,7 +95,7 @@ export default function EmpTable({ setData, setVisible }) {
                           setVisible(true);
                           setData(row);
                         }}
-                        variant='contained'
+                        variant='outlined'
                         component='label'
                       >
                         Edit
@@ -74,7 +104,7 @@ export default function EmpTable({ setData, setVisible }) {
                     <Grid item>
                       <Button
                         onClick={() => setDeleteId(row.id)}
-                        variant='contained'
+                        variant='outlined'
                         color='error'
                         component='label'
                       >
@@ -85,6 +115,17 @@ export default function EmpTable({ setData, setVisible }) {
                 </TableCell>
               </TableRow>
             ))}
+            {!rows?.length ? (
+              <TableRow
+                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+              >
+                <TableCell colSpan={12} style={{ textAlign: 'center' }}>
+                  No data found.
+                </TableCell>
+              </TableRow>
+            ) : (
+              ''
+            )}
           </TableBody>
         </Table>
       </TableContainer>

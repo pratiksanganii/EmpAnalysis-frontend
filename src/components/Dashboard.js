@@ -4,9 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import Upload from './Upload';
 import EmpTable from './EmpTable';
 import { empList } from '../store/employeeSlice';
-import { Button } from '@mui/material';
 import PopUp from './PopUp';
-import ChartTable from './ChartTable';
+import ChartTable from './chart/ChartTable';
 
 const Dashboard = () => {
   const user = useSelector((state) => state.user)?.user;
@@ -26,21 +25,6 @@ const Dashboard = () => {
     <div>
       {!emp?.data?.length ? <Upload /> : ''}
       <div>
-        <div
-          style={{
-            width: '90vw',
-            display: 'flex',
-            justifyContent: 'flex-end',
-          }}
-        >
-          <Button
-            onClick={() => setVisible(true)}
-            variant='contained'
-            component='label'
-          >
-            Create
-          </Button>
-        </div>
         <EmpTable setData={setData} setVisible={setVisible} />
         <ChartTable />
       </div>
