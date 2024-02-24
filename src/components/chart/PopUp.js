@@ -10,6 +10,8 @@ import {
 import React, { useEffect, useState } from 'react';
 import http from '../../http-common';
 import { useDispatch } from 'react-redux';
+import { logout } from '../../store/userSlice';
+import { createChart, updateChart } from '../../store/chartSlice';
 
 const Form = ({ visible, setVisible, data }) => {
   const [type, setType] = useState(data?.type);
@@ -18,18 +20,23 @@ const Form = ({ visible, setVisible, data }) => {
   const dispatch = useDispatch();
 
   const handleSubmit = () => {
-    if (data) dispatch();
+    if (data) dispatch(updateChart({ id: data.id, type, field }));
+    else dispatch(createChart({ type, field }));
   };
 
   useEffect(() => {
     async function fetchTypes() {
-      const data = await http.get('/chart/types');
-      setTypeList(
-        Object.keys(data.data).map((k) => ({ id: data.data[k], title: k }))
-      );
+      try {
+        const data = await http.get('/chart/types');
+        setTypeList(
+          Object.keys(data.data).map((k) => ({ id: data.data[k], title: k }))
+        );
+      } catch (e) {
+        if (e.response.status === 403) dispatch(logout());
+      }
     }
     fetchTypes();
-  }, []);
+  }, [dispatch]);
   return (
     <Modal open={visible} onClose={() => setVisible(false)}>
       <Container maxWidth='sm' style={{ background: 'white' }}>

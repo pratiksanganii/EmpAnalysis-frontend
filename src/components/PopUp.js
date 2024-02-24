@@ -12,6 +12,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { create, update } from '../store/employeeSlice';
 import http from '../http-common';
+import { logout } from '../store/userSlice';
 
 const PopUp = ({ data, visible, setVisible }) => {
   const [employeeID, setEmployeeID] = useState(data?.employeeID);
@@ -26,12 +27,6 @@ const PopUp = ({ data, visible, setVisible }) => {
   const [statusList, setStatusList] = useState([]);
   const [desigList, setDesigList] = useState([]);
   const dispatch = useDispatch();
-
-  const setEmpData = async () => {
-    const emp = await http.get('/misc/empData');
-    setStatusList(emp.data.status);
-    setDesigList(emp.data.designation);
-  };
 
   const handleSubmit = () => {
     const payload = {
@@ -51,8 +46,17 @@ const PopUp = ({ data, visible, setVisible }) => {
   };
 
   useEffect(() => {
+    const setEmpData = async () => {
+      try {
+        const emp = await http.get('/misc/empData');
+        setStatusList(emp.data.status);
+        setDesigList(emp.data.designation);
+      } catch (e) {
+        if (e.response.status === 403) dispatch(logout());
+      }
+    };
     setEmpData();
-  }, []);
+  }, [dispatch]);
 
   return (
     <Modal

@@ -8,8 +8,13 @@ const initialState = {
 };
 
 export const empList = createAsyncThunk('list', async (u, thunkAPI) => {
-  const data = await http.get('/emp/list');
-  return thunkAPI.fulfillWithValue(data.data);
+  try {
+    const data = await http.get('/emp/list');
+    return thunkAPI.fulfillWithValue(data.data);
+  } catch (e) {
+    // console.log({e})
+    return thunkAPI.rejectWithValue(e.response.status);
+  }
 });
 
 export const create = createAsyncThunk('create', async (payload, thunkAPI) => {
@@ -41,6 +46,10 @@ const empSlice = createSlice({
     builder
       .addCase(empList.fulfilled, (state, action) => {
         state.data = action.payload;
+      })
+      .addCase(empList.rejected, (state, action) => {
+        // state.error = action.payload;
+        state.data = [];
       })
       .addCase(update.fulfilled, (state, action) => {
         state.data = state.data?.map((e) => {

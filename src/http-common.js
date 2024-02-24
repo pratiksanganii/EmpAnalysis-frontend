@@ -5,7 +5,6 @@ const http = axios.create({
     'Content-type': 'application/json',
   },
 });
-axios.interceptors.request.use(() => {});
 http.interceptors.request.use((req) => {
   if (req.files) req.body = req.files;
   req.headers.access_token = localStorage.getItem('accessToken');

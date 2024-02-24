@@ -1,9 +1,20 @@
-import { Button, Typography } from '@mui/material';
-import React, { useState } from 'react';
+import { Button, Container, Typography } from '@mui/material';
+import React, { useEffect, useState } from 'react';
 import PopUp from './PopUp';
+import { ChartCard } from './ChartCard';
+import { useDispatch, useSelector } from 'react-redux';
+import { listChart } from '../../store/chartSlice';
 
 const ChartTable = () => {
   const [visible, setVisible] = useState(false);
+  const chart = useSelector((state) => state.chart);
+  const data = chart.data;
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(listChart());
+  }, [dispatch]);
+
   return (
     <>
       <div
@@ -23,6 +34,11 @@ const ChartTable = () => {
           Create
         </Button>
       </div>
+      <Container>
+        {data.map((d) => {
+          return <ChartCard key={d.id} data={d} />;
+        })}
+      </Container>
       <PopUp visible={visible} setVisible={setVisible} />
     </>
   );
