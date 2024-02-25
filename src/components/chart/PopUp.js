@@ -22,6 +22,7 @@ const Form = ({ visible, setVisible, data }) => {
   const handleSubmit = () => {
     if (data) dispatch(updateChart({ id: data.id, type, field }));
     else dispatch(createChart({ type, field }));
+    setVisible(false);
   };
 
   useEffect(() => {
