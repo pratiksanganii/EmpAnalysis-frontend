@@ -21,7 +21,7 @@ const PopUp = ({ data, visible, setVisible }) => {
   const [joiningDate, setJoiningDate] = useState(data?.joiningDate);
   const [birthDate, setBirthDate] = useState(data?.birthDate);
   const [skills, setSkills] = useState(data?.skills);
-  const [salary, setSalary] = useState(data?.salaryDetails);
+  const [salary, setSalary] = useState(data?.salary);
   const [address, setAddress] = useState(data?.address);
   const [designation, setDesignation] = useState(data?.designation);
   const [statusList, setStatusList] = useState([]);
