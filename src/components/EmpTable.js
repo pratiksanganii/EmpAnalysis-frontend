@@ -27,32 +27,37 @@ export default function EmpTable({ setData, setVisible }) {
 
   return (
     <>
-      <TableContainer
-        style={{ marginTop: 15, height: '60vh' }}
-        component={Paper}
-      >
+      <TableContainer style={{ marginTop: 15 }} component={Paper}>
         <div
           style={{
             width: '90vw',
             display: 'flex',
             justifyContent: 'space-between',
+            margin: 'auto',
+            padding: '20px',
           }}
         >
-          <Typography marginLeft={2} component={'h1'}>
-            Employee details
-          </Typography>
-          <Button
-            onClick={() => setVisible(true)}
-            variant='contained'
-            component='label'
-          >
-            Create
-          </Button>
+          <div>
+            <Typography marginLeft={2} component={'h1'}>
+              Employee details
+            </Typography>
+          </div>
+          <div>
+            <Button
+              style={{ margin: '0 10px' }}
+              onClick={() => setVisible(true)}
+              variant='contained'
+              component='label'
+            >
+              Create
+            </Button>
+          </div>
         </div>
         <Table
           sx={{
             minWidth: 650,
-            width: '80vw',
+            width: '90vw',
+            margin: 'auto',
           }}
           aria-label='simple table'
         >
@@ -89,7 +94,7 @@ export default function EmpTable({ setData, setVisible }) {
                 <TableCell align='center'>{row.address}</TableCell>
                 <TableCell align='center'>
                   <Grid container justifyContent='space-evenly'>
-                    <Grid item>
+                    <Grid item style={{ padding: '10px' }}>
                       <Button
                         onClick={() => {
                           setVisible(true);
@@ -101,7 +106,7 @@ export default function EmpTable({ setData, setVisible }) {
                         Edit
                       </Button>
                     </Grid>
-                    <Grid item>
+                    <Grid item style={{ padding: '10px' }}>
                       <Button
                         onClick={() => setDeleteId(row.id)}
                         variant='outlined'

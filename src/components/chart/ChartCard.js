@@ -3,7 +3,7 @@ import { BarChart, LineChart, PieChart } from '@mui/x-charts';
 
 export const ChartCard = ({ data }) => {
   return (
-    <div style={{ border: '1px solid black' }}>
+    <div style={{ border: '1px solid black', margin: 'auto' }}>
       <Typography>{data.field}</Typography>
       {data?.types?.length ? (
         data.type === 1 ? (
@@ -18,7 +18,6 @@ export const ChartCard = ({ data }) => {
             series={[{ data: data.values }]}
             xAxis={[{ data: data.types }]}
             height={300}
-            width={500}
           />
         ) : data.type === 3 ? (
           <PieChart
@@ -32,7 +31,6 @@ export const ChartCard = ({ data }) => {
               },
             ]}
             height={300}
-            width={500}
           />
         ) : (
           ''

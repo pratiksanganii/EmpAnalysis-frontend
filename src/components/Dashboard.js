@@ -6,6 +6,8 @@ import EmpTable from './EmpTable';
 import { empList } from '../store/employeeSlice';
 import PopUp from './PopUp';
 import ChartTable from './chart/ChartTable';
+import { Button } from '@mui/material';
+import { logout } from '../store/userSlice';
 
 const Dashboard = () => {
   const user = useSelector((state) => state.user)?.user;
@@ -23,6 +25,16 @@ const Dashboard = () => {
 
   return (
     <div>
+      <div style={{ display: 'flex', width: '100vw',justifyContent:"flex-end" }}>
+        <Button
+          style={{ backgroundColor: '#ff4e60', marginRight: '100px' }}
+          variant='contained'
+          onClick={()=>dispatch(logout())}
+          component='label'
+        >
+          Logout
+        </Button>
+      </div>
       {!emp?.data?.length ? <Upload /> : ''}
       <div>
         <EmpTable setData={setData} setVisible={setVisible} />

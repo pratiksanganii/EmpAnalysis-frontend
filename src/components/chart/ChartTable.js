@@ -19,10 +19,11 @@ const ChartTable = () => {
     <>
       <div
         style={{
-          margin: '10px',
           width: '90vw',
           display: 'flex',
           justifyContent: 'space-between',
+          margin: 'auto',
+          padding: '20px',
         }}
       >
         <Typography>Charts</Typography>
