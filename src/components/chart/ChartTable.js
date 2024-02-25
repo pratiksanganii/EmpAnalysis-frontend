@@ -13,7 +13,7 @@ const ChartTable = () => {
 
   useEffect(() => {
     dispatch(listChart());
-  }, [dispatch]);
+  }, [dispatch, visible]);
 
   return (
     <>
