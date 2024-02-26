@@ -67,12 +67,21 @@ const userSlice = createSlice({
         state.loading = false;
         state.accessToken = accessToken;
       })
+      .addCase(login.rejected, (state, action) => {
+        console.log(action.payload);
+        state.error = action.payload.message;
+        state.loading = false;
+      })
       .addCase(signup.fulfilled, (state, action) => {
         const accessToken = action.payload.accessToken;
         localStorage.setItem('accessToken', accessToken);
         state.user = action.payload;
         state.loading = false;
         state.accessToken = accessToken;
+      })
+      .addCase(signup.rejected, (state, action) => {
+        state.error = action.payload.message;
+        state.loading = false;
       });
   },
 });
