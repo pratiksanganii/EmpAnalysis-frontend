@@ -49,7 +49,7 @@ const userSlice = createSlice({
     },
     logout: (state, action) => {
       localStorage.clear('accessToken', '');
-      state.accessToken = null
+      state.accessToken = null;
     },
     setLoading: (state, action) => {
       state.loading = action.payload;
@@ -64,16 +64,18 @@ const userSlice = createSlice({
         const accessToken = action.payload.accessToken;
         localStorage.setItem('accessToken', accessToken);
         state.user = action.payload;
+        state.loading = false;
         state.accessToken = accessToken;
       })
       .addCase(signup.fulfilled, (state, action) => {
         const accessToken = action.payload.accessToken;
         localStorage.setItem('accessToken', accessToken);
         state.user = action.payload;
+        state.loading = false;
         state.accessToken = accessToken;
       });
   },
 });
 
-export const { setData, setLoading, setError,logout } = userSlice.actions;
+export const { setData, setLoading, setError, logout } = userSlice.actions;
 export default userSlice.reducer;

@@ -9,6 +9,7 @@ import Paper from '@mui/material/Paper';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Button,
+  CircularProgress,
   Dialog,
   DialogActions,
   DialogContentText,
@@ -17,7 +18,7 @@ import {
   Typography,
 } from '@mui/material';
 import { useState } from 'react';
-import { deleteEmp } from '../store/employeeSlice';
+import { deleteEmp, setLoading } from '../store/employeeSlice';
 
 export default function EmpTable({ setData, setVisible }) {
   const emp = useSelector((state) => state.emp);
@@ -76,6 +77,13 @@ export default function EmpTable({ setData, setVisible }) {
             </TableRow>
           </TableHead>
           <TableBody style={{ height: '50vh', overflow: 'scroll' }}>
+            {emp.loading ? (
+              <div style={{ width: '100vw', justifyContent: 'center' }}>
+                <CircularProgress />
+              </div>
+            ) : (
+              ''
+            )}
             {rows.map((row) => (
               <TableRow
                 key={row.id}
@@ -150,6 +158,7 @@ export default function EmpTable({ setData, setVisible }) {
             </Button>
             <Button
               onClick={() => {
+                dispatch(setLoading(true));
                 dispatch(deleteEmp({ id: deleteId }));
                 setDeleteId(0);
               }}

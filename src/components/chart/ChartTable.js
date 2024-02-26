@@ -1,9 +1,9 @@
-import { Button, Container, Typography } from '@mui/material';
+import { Button, CircularProgress, Container, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import PopUp from './PopUp';
 import { ChartCard } from './ChartCard';
 import { useDispatch, useSelector } from 'react-redux';
-import { listChart } from '../../store/chartSlice';
+import { listChart, setLoading } from '../../store/chartSlice';
 
 const ChartTable = () => {
   const [visible, setVisible] = useState(false);
@@ -12,11 +12,13 @@ const ChartTable = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    dispatch(setLoading(true));
     dispatch(listChart());
   }, [dispatch, visible]);
 
   return (
     <>
+      {chart.loading ? <CircularProgress /> : ''}
       <div
         style={{
           width: '90vw',

@@ -10,7 +10,7 @@ import {
 import React, { useEffect, useState } from 'react';
 import http from '../../http-common';
 import { useDispatch } from 'react-redux';
-import { logout } from '../../store/userSlice';
+import { logout, setLoading } from '../../store/userSlice';
 import { createChart, updateChart } from '../../store/chartSlice';
 
 const Form = ({ visible, setVisible, data }) => {
@@ -20,6 +20,7 @@ const Form = ({ visible, setVisible, data }) => {
   const dispatch = useDispatch();
 
   const handleSubmit = () => {
+    dispatch(setLoading(true));
     if (data) dispatch(updateChart({ id: data.id, type, field }));
     else dispatch(createChart({ type, field }));
     setVisible(false);

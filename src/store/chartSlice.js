@@ -38,27 +38,36 @@ export const deleteChart = createAsyncThunk(
 const chart = createSlice({
   name: 'chart',
   initialState,
+  reducers: {
+    setLoading: (state, action) => {
+      state.loading = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(listChart.fulfilled, (state, action) => {
         state.data = action.payload;
+        state.loading = false;
       })
       .addCase(createChart.fulfilled, (state, action) => {
         const newAdd = state.data;
         newAdd.push(action.payload);
         state.data = newAdd;
+        state.loading = false;
       })
       .addCase(updateChart.fulfilled, (state, action) => {
         state.data = state.data.map((d) => {
           if (action.payload.id !== d.id) return d;
           return action.payload;
         });
+        state.loading = false;
       })
       .addCase(deleteChart.fulfilled, (state, action) => {
         state.data = state.data.filter((d) => d.id !== action.payload.id);
+        state.loading = false;
       });
   },
 });
 
-// export const {} = chart.actions;
+export const { setLoading } = chart.actions;
 export default chart.reducer;

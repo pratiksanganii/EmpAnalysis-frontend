@@ -6,7 +6,7 @@ import EmpTable from './EmpTable';
 import { empList } from '../store/employeeSlice';
 import PopUp from './PopUp';
 import ChartTable from './chart/ChartTable';
-import { Button } from '@mui/material';
+import { Button, CircularProgress } from '@mui/material';
 import { logout } from '../store/userSlice';
 
 const Dashboard = () => {
@@ -25,17 +25,20 @@ const Dashboard = () => {
 
   return (
     <div>
-      <div style={{ display: 'flex', width: '100vw',justifyContent:"flex-end" }}>
+      {emp.loading ? <CircularProgress /> : ''}
+      <div
+        style={{ display: 'flex', width: '100vw', justifyContent: 'flex-end' }}
+      >
         <Button
           style={{ backgroundColor: '#ff4e60', marginRight: '100px' }}
           variant='contained'
-          onClick={()=>dispatch(logout())}
+          onClick={() => dispatch(logout())}
           component='label'
         >
           Logout
         </Button>
       </div>
-      {!emp?.data?.length ? <Upload /> : ''}
+      {!emp?.data?.length && !emp.loading ? <Upload /> : ''}
       <div>
         <EmpTable setData={setData} setVisible={setVisible} />
         <ChartTable />

@@ -1,13 +1,8 @@
-import {
-  Box,
-  Container,
-  TextField,
-  Typography,
-} from '@mui/material';
+import { Box, Container, TextField, Typography } from '@mui/material';
 import React, { useState } from 'react';
 import Footer from './Common';
 import { useDispatch } from 'react-redux';
-import { login } from '../store/userSlice';
+import { login, setLoading } from '../store/userSlice';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -16,6 +11,7 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    dispatch(setLoading(true));
     dispatch(login({ email, password }));
   };
 
