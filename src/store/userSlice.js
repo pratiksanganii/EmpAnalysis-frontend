@@ -3,13 +3,21 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import http from '../http-common';
 
 export const login = createAsyncThunk('login', async (user, thunkAPI) => {
-  const data = await commonAuth('login', user);
-  return thunkAPI.fulfillWithValue(data);
+  try {
+    const data = await commonAuth('login', user);
+    return thunkAPI.fulfillWithValue(data);
+  } catch (e) {
+    return thunkAPI.rejectWithValue(e.response?.data);
+  }
 });
 
 export const signup = createAsyncThunk('signup', async (user, thunkAPI) => {
-  const data = await commonAuth('signup', user);
-  return thunkAPI.fulfillWithValue(data);
+  try {
+    const data = await commonAuth('signup', user);
+    return thunkAPI.fulfillWithValue(data);
+  } catch (e) {
+    return thunkAPI.rejectWithValue(e);
+  }
 });
 
 export const feedDataFromExcel = createAsyncThunk(
@@ -68,7 +76,6 @@ const userSlice = createSlice({
         state.accessToken = accessToken;
       })
       .addCase(login.rejected, (state, action) => {
-        console.log(action.payload);
         state.error = action.payload.message;
         state.loading = false;
       })
